@@ -70,7 +70,7 @@ const App = () => {
   const renderItem = ({item}) => <Item item={item} />;
 
   return (
-    <View style={{marginBottom: 20, marginHorizontal: 10}}>
+    <View style={{marginBottom: 10, marginHorizontal: 10}}>
       <View
         style={{
           flexDirection: 'row',

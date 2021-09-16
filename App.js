@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -11,6 +11,7 @@ import LoginModal from './components/Modals/Login';
 import SignUpModal from './components/Modals/SignUp';
 import TourDetailsModal from './components/Tours/TourDetailsModal';
 import Login from './components/Modals/Login';
+import UserProfile from './components/UserProfile/UserProfile';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -136,6 +137,11 @@ export default function App() {
           name="LoginModal"
           options={{title: 'Login'}}
           component={Login}
+        />
+        <Drawer.Screen
+          name="Profile"
+          options={{title: 'Profile'}}
+          component={UserProfile}
         />
       </Drawer.Navigator>
     </NavigationContainer>

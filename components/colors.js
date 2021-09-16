@@ -7,4 +7,5 @@ module.exports = {
   color6: 'gray',
   yellow1: '#e99a2b',
   blue1: '#rgb(25, 25, 255)',
+  red1: 'rgb(211, 53, 53);',
 };

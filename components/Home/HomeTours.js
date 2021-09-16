@@ -33,7 +33,7 @@ const HomeTours = ({navigation}) => {
       <Carousel
         autoplay={true}
         loop={true}
-        height={windowHeight - 390}
+        height={windowHeight - 410}
         showsControls={false}
         showsDots={false}
         autoplayInterval={5000}>
