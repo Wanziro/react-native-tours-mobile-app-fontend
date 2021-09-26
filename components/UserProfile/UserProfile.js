@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNRestart from 'react-native-restart';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -34,7 +35,8 @@ const UserProfile = ({navigation}) => {
 
   const handleLogout = async () => {
     await AsyncStorage.clear();
-    navigation.navigate('Home');
+    // navigation.navigate('Home');
+    RNRestart.Restart();
   };
 
   //profile page

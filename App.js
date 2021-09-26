@@ -12,9 +12,12 @@ import SignUpModal from './components/Modals/SignUp';
 import TourDetailsModal from './components/Tours/TourDetailsModal';
 import Login from './components/Modals/Login';
 import UserProfile from './components/UserProfile/UserProfile';
+import ToursBookingInfo from './components/Tours/ToursBookingInfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BookingType from './components/Tours/BookingType';
 import SubmitDocuments from './components/Tours/SubmitDocuments';
+import ManageToursBooking from './components/Tours/ManageToursBooking';
+import DashBoard from './components/Home/DashBoard';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -58,6 +61,36 @@ const ToursNavigator = () => {
           headerTintColor: 'white',
         }}
         component={Tours}
+      />
+    </Stack.Navigator>
+  );
+};
+const ManageToursBookingNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ManageToursBooking"
+        options={{
+          title: 'Manage Tours client Booking',
+          headerStyle: {backgroundColor: colors.yellow1},
+          headerTintColor: 'white',
+        }}
+        component={ManageToursBooking}
+      />
+    </Stack.Navigator>
+  );
+};
+const ToursBookingNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ToursBookingInfo"
+        options={{
+          title: 'Tours Booking Status',
+          headerStyle: {backgroundColor: colors.yellow1},
+          headerTintColor: 'white',
+        }}
+        component={ToursBookingInfo}
       />
     </Stack.Navigator>
   );
@@ -127,13 +160,17 @@ function RootStackScreen() {
 }
 
 export default function App() {
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState(null);
+  const [userType, setUserType] = useState(null);
   const [gotUserInfo, setGotUserInfo] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem('user_email').then(value => {
       setGotUserInfo(true);
       if (value != null) setUserEmail(value);
+    });
+    AsyncStorage.getItem('user_type').then(value => {
+      if (value != null) setUserType(value);
     });
   });
 
@@ -146,6 +183,13 @@ export default function App() {
               backgroundColor: colors.color4,
             }}>
             <Drawer.Screen name="Home" component={RootStackScreen} />
+            {userType == 'admin' && (
+              <Drawer.Screen
+                name="Dashboard"
+                options={{title: 'Admin Dashboard'}}
+                component={DashBoard}
+              />
+            )}
             <Drawer.Screen
               name="Tours"
               options={{
@@ -153,6 +197,27 @@ export default function App() {
               }}
               component={ToursNavigator}
             />
+            {userType == 'admin' ? (
+              <>
+                <Drawer.Screen
+                  name="ToursBookingInfo"
+                  options={{
+                    title: 'Manage Tours client Booking',
+                  }}
+                  component={ManageToursBookingNavigator}
+                />
+              </>
+            ) : (
+              <>
+                <Drawer.Screen
+                  name="ToursBookingInfo"
+                  options={{
+                    title: 'Tours Booking Status',
+                  }}
+                  component={ToursBookingNavigator}
+                />
+              </>
+            )}
             <Drawer.Screen
               name="Profile"
               options={{title: 'Profile'}}
@@ -168,7 +233,7 @@ export default function App() {
             }}>
             <Drawer.Screen name="Home" component={RootStackScreen} />
             <Drawer.Screen
-              name="Tours222"
+              name="Tours"
               options={{
                 title: 'Latest Tours',
               }}

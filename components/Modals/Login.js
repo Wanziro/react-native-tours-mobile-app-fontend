@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import React, {useState} from 'react';
-// import AsyncStorage from '@react-native-community/async-storage';
 import {
   TouchableOpacity,
   ImageBackground,
@@ -14,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../colors';
 import {BackendUrl} from '../Config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNRestart from 'react-native-restart';
 
 const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
@@ -31,11 +31,17 @@ const Login = ({navigation}) => {
         .then(res => {
           console.log(res.data);
           if (res.data.success) {
-            AsyncStorage.setItem('user_email', res.data.user[0].email);
-            AsyncStorage.setItem('user_name', res.data.user[0].name);
-            // AsyncStorage.setItem('user_address', res.data.user[0].address);
-            // AsyncStorage.setItem('user_phone', res.data.user[0].phone);
-            navigation.navigate('Home');
+            try {
+              AsyncStorage.setItem('user_email', res.data.user[0].email);
+              AsyncStorage.setItem('user_name', res.data.user[0].name);
+              AsyncStorage.setItem('user_type', res.data.user[0].type);
+              // AsyncStorage.setItem('user_address', res.data.user[0].address);
+              // AsyncStorage.setItem('user_phone', res.data.user[0].phone);
+              RNRestart.Restart();
+            } catch (error) {
+              console.log(error);
+            }
+            // navigation.navigate('Home');
           } else {
             setLoginError(true);
             setErrorMessage(res.data.msg);
@@ -46,6 +52,7 @@ const Login = ({navigation}) => {
         .catch(err => {
           console.log('something went wrong, ', err);
           setLoginBtnText('Login Now');
+          alert('something went wrong. ' + err);
         });
     }
   };

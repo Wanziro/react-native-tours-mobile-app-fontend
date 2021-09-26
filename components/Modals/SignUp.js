@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Axios from 'axios';
 import colors from '../colors';
 import {BackendUrl} from '../Config';
+import RNRestart from 'react-native-restart';
 
 const SignUp = ({navigation}) => {
   const [names, setNames] = useState('');
@@ -46,7 +47,8 @@ const SignUp = ({navigation}) => {
             //log in the user
             AsyncStorage.setItem('user_email', email);
             AsyncStorage.setItem('user_name', names);
-            navigation.navigate('Home');
+            // navigation.navigate('Home');
+            RNRestart.Restart();
           } else {
             alert('Error! Enter correct data and try again.');
           }
