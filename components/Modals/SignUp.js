@@ -8,7 +8,7 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Axios from 'axios';
 import colors from '../colors';
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     height: 50,
     paddingLeft: 50,
+    color: 'black',
   },
   iconContainer: {
     position: 'absolute',

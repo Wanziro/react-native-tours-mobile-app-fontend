@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, {useState} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import {
   TouchableOpacity,
   ImageBackground,
@@ -13,6 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../colors';
 import {BackendUrl} from '../Config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
@@ -20,7 +21,6 @@ const Login = ({navigation}) => {
   const [loginError, setLoginError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loginBtnText, setLoginBtnText] = useState('Login Now');
-
   const handleSubmit = () => {
     setLoginBtnText('Logging in...');
     if (!password || !email) {
@@ -122,29 +122,6 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
           {/* submit button */}
 
-          {/* google button */}
-          <TouchableOpacity style={{marginVertical: 20}}>
-            <View
-              style={{
-                ...styles.button,
-                backgroundColor: colors.blue1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingLeft: 20,
-              }}>
-              <Icon
-                color="white"
-                name="google"
-                size={20}
-                style={{marginRight: 45}}
-              />
-              <Text style={{textAlign: 'center', color: 'white', fontSize: 20}}>
-                Login With Google
-              </Text>
-            </View>
-          </TouchableOpacity>
-          {/* Google button */}
-
           <View style={{marginVertical: 20}}>
             <Text style={{textAlign: 'center', marginBottom: 20, fontSize: 18}}>
               Don't have Account?
@@ -201,6 +178,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     height: 50,
     paddingLeft: 50,
+    color: 'black',
   },
   iconContainer: {
     position: 'absolute',

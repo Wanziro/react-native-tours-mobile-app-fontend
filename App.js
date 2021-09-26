@@ -12,6 +12,9 @@ import SignUpModal from './components/Modals/SignUp';
 import TourDetailsModal from './components/Tours/TourDetailsModal';
 import Login from './components/Modals/Login';
 import UserProfile from './components/UserProfile/UserProfile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BookingType from './components/Tours/BookingType';
+import SubmitDocuments from './components/Tours/SubmitDocuments';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -109,41 +112,81 @@ function RootStackScreen() {
         component={TourDetailsModal}
         options={{title: '', headerTransparent: true}}
       />
+      <RootStack.Screen
+        name="BookingType"
+        component={BookingType}
+        options={{title: '', headerTransparent: true, headerTintColor: 'white'}}
+      />
+      <RootStack.Screen
+        name="SubmitDocuments"
+        component={SubmitDocuments}
+        options={{title: '', headerTransparent: true, headerTintColor: 'white'}}
+      />
     </RootStack.Navigator>
   );
 }
 
 export default function App() {
+  const [userEmail, setUserEmail] = useState('');
+  const [gotUserInfo, setGotUserInfo] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('user_email').then(value => {
+      setGotUserInfo(true);
+      if (value != null) setUserEmail(value);
+    });
+  });
+
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        drawerStyle={{
-          backgroundColor: colors.color4,
-        }}>
-        <Drawer.Screen name="Home" component={RootStackScreen} />
-        <Drawer.Screen
-          name="Tours"
-          options={{
-            title: 'Latest Tours',
-          }}
-          component={ToursNavigator}
-        />
-        <Drawer.Screen
-          name="SignUpModal"
-          options={{title: 'Create Account'}}
-          component={SignUpModal}
-        />
-        <Drawer.Screen
-          name="LoginModal"
-          options={{title: 'Login'}}
-          component={Login}
-        />
-        <Drawer.Screen
-          name="Profile"
-          options={{title: 'Profile'}}
-          component={UserProfile}
-        />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <>
+      {userEmail != '' && userEmail != null ? (
+        <NavigationContainer>
+          <Drawer.Navigator
+            drawerStyle={{
+              backgroundColor: colors.color4,
+            }}>
+            <Drawer.Screen name="Home" component={RootStackScreen} />
+            <Drawer.Screen
+              name="Tours"
+              options={{
+                title: 'Latest Tours',
+              }}
+              component={ToursNavigator}
+            />
+            <Drawer.Screen
+              name="Profile"
+              options={{title: 'Profile'}}
+              component={UserProfile}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      ) : (
+        <NavigationContainer>
+          <Drawer.Navigator
+            drawerStyle={{
+              backgroundColor: colors.color4,
+            }}>
+            <Drawer.Screen name="Home" component={RootStackScreen} />
+            <Drawer.Screen
+              name="Tours222"
+              options={{
+                title: 'Latest Tours',
+              }}
+              component={ToursNavigator}
+            />
+            <Drawer.Screen
+              name="SignUpModal"
+              options={{title: 'Create Account'}}
+              component={SignUpModal}
+            />
+            <Drawer.Screen
+              name="LoginModal"
+              options={{title: 'Login'}}
+              component={Login}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      )}
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeTours from './HomeTours';
 
@@ -10,24 +10,49 @@ import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../colors';
 import CarsForRent from './CarsForRent';
 
-const HandleUserIcons = ({userNames, userEmail}) => {
-  if (userNames != null || userEmail != '') {
-    return (
-      <View
-        style={{
-          height: 30,
-          width: 30,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: colors.yellow1,
-          borderRadius: 50,
-        }}>
-        <Text style={{color: 'white', fontWeight: 'bold'}}>
-          {userNames.charAt(0)}
-        </Text>
-      </View>
-    );
+const HandleUserIcons = () => {
+  const [userNames, setUserNames] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [gotUserInfo, setGotUserInfo] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('user_email').then(value => {
+      setGotUserInfo(true);
+      if (value != null) {
+        setUserEmail(value);
+      } else {
+        setUserEmail('');
+      }
+    });
+    AsyncStorage.getItem('user_name').then(value => {
+      if (value != null) {
+        setUserNames(value);
+      } else {
+        setUserNames('');
+      }
+    });
+  });
+  if (gotUserInfo) {
+    if (userNames != null && userEmail != '') {
+      return (
+        <View
+          style={{
+            height: 30,
+            width: 30,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: colors.yellow1,
+            borderRadius: 50,
+          }}>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>
+            {userNames.charAt(0)}
+          </Text>
+        </View>
+      );
+    } else {
+      return <Icon name="user-o" size={30} color={colors.yellow1} />;
+    }
   } else {
     return <Icon name="user-o" size={30} color={colors.yellow1} />;
   }
@@ -55,7 +80,7 @@ const Home = ({navigation}) => {
         if (value != null) setUserAddress(value);
       });
     });
-  }, []);
+  });
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.header}>
@@ -77,19 +102,13 @@ const Home = ({navigation}) => {
 
         <TouchableOpacity
           onPress={() => {
-            if (userEmail != null || userEmail != '') {
+            if (userEmail != null && userEmail != '') {
               navigation.navigate('Profile');
             } else {
               navigation.navigate('LoginModal');
             }
           }}>
-          <View>
-            {gotUserInfo ? (
-              <HandleUserIcons userNames={userNames} userEmail={{userEmail}} />
-            ) : (
-              <Icon name="user-o" size={30} color={colors.yellow1} />
-            )}
-          </View>
+          <HandleUserIcons />
         </TouchableOpacity>
       </View>
       <ScrollView style={{position: 'relative', top: 0}}>

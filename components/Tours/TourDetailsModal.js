@@ -14,6 +14,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const TourDetailsModal = ({route, navigation}) => {
   const {tour} = route.params;
+  const handleBooking = () => {
+    navigation.navigate('BookingType', {tour});
+  };
   return (
     <>
       <TourDetailSlider images={tour.images} />
@@ -108,7 +111,10 @@ const TourDetailsModal = ({route, navigation}) => {
               marginBottom: 20,
               marginTop: 10,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                handleBooking();
+              }}>
               <View
                 style={{
                   backgroundColor: colors.yellow1,
