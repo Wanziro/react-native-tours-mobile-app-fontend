@@ -1,5 +1,5 @@
 import React from 'react';
-import {BackendUrl} from '../Config';
+import {BackendUrl, UploadsUrl} from '../Config';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
@@ -15,7 +15,7 @@ const Tour = ({details, navigation}) => {
           navigation.navigate('TourDetailsModal', {tour: details});
         }}>
         <Image
-          source={{uri: BackendUrl + 'images/' + details.images[0]}}
+          source={{uri: UploadsUrl + details.images[0]}}
           style={{
             width: '100%',
             height: 200,

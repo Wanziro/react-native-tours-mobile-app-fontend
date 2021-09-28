@@ -2,7 +2,7 @@ import React from 'react';
 
 import {View, Image, Dimensions} from 'react-native';
 import Carousel from 'pinar';
-import {BackendUrl} from '../Config';
+import {BackendUrl, UploadsUrl} from '../Config';
 import colors from '../colors';
 
 const windowWidth = Dimensions.get('window').width;
@@ -21,7 +21,7 @@ const TourDetailSlider = ({images}) => {
         {images.map((image, index) => (
           <View key={index}>
             <Image
-              source={{uri: BackendUrl + 'images/' + image}}
+              source={{uri: UploadsUrl + image}}
               style={{width: '100%', height: '100%'}}
             />
           </View>

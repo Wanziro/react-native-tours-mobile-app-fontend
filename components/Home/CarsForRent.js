@@ -1,73 +1,58 @@
-import React from 'react';
-import {Image, View, FlatList, StyleSheet, Text, StatusBar} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  Image,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import colors from '../colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Axios from 'axios';
+import {BackendUrl, UploadsUrl} from '../Config';
 
-const cars = [
-  {
-    id: 1,
-    name: 'BMW 03',
-    img: require('../../assets/img/car1.jpg'),
-    price: 5000,
-    currency: 'RWF',
-    time: 'Day',
-  },
-  {
-    id: 2,
-    name: 'Fast and Furious',
-    img: require('../../assets/img/car2.jpg'),
-    price: 8000,
-    currency: '$',
-    time: 'Hour',
-  },
-  {
-    id: 3,
-    name: 'Corolla 970',
-    img: require('../../assets/img/car2.jpg'),
-    price: 50,
-    currency: '$',
-    time: 'Day',
-  },
-  {
-    id: 4,
-    name: 'Corolla 65',
-    img: require('../../assets/img/car2.jpg'),
-    price: 100000,
-    currency: 'RWF',
-    time: 'Hour',
-  },
-  {
-    id: 5,
-    name: 'Kiboko',
-    img: require('../../assets/img/car1.jpg'),
-    price: 70000,
-    currency: 'RWF',
-    time: 'Hour',
-  },
-];
-
-const Item = ({item}) => (
+const Item = ({item, navigation}) => (
   <View style={styles.item}>
-    <Image
-      source={item.img}
-      style={{
-        width: '100%',
-        height: 120,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-      }}
-    />
+    <TouchableOpacity
+      onPress={() => navigation.navigate('CarDetails', {car: item})}>
+      <Image
+        source={{uri: UploadsUrl + item.image}}
+        style={{
+          width: '100%',
+          height: 120,
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
+        }}
+      />
+    </TouchableOpacity>
     <View style={{padding: 10}}>
-      <Text style={{fontSize: 25}}>{item.name}</Text>
+      <Text numberOfLines={1} style={{fontSize: 25}}>
+        {item.name}
+      </Text>
       <Text style={{color: colors.color2}}>
-        RWF {item.price} Per {item.time}
+        {item.currency} {item.price} Per {item.time}
       </Text>
     </View>
   </View>
 );
 
-const App = () => {
-  const renderItem = ({item}) => <Item item={item} />;
+const App = ({navigation}) => {
+  const [cars, setCars] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    Axios.post(BackendUrl + 'api/cars/notBooked')
+      .then(res => {
+        setCars(res.data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+  const renderItem = ({item}) => <Item item={item} navigation={navigation} />;
 
   return (
     <View style={{marginBottom: 10, marginHorizontal: 10}}>
@@ -82,13 +67,39 @@ const App = () => {
         </Text>
         <Icon name="car" size={30} style={{marginTop: 10}} />
       </View>
-      <FlatList
-        horizontal
-        data={cars}
-        showsHorizontalScrollIndicator={false}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      {isLoading == true ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            display: 'flex',
+            height: 100,
+          }}>
+          <ActivityIndicator
+            color={colors.yellow1}
+            size="large"
+            style={{marginBottom: 10}}
+          />
+          <Text>Loading car info, Please wait...</Text>
+        </View>
+      ) : cars.length == 0 ? (
+        <View>
+          <Text style={{color: colors.color2, fontSize: 18}}>
+            No cars for renting cars available
+          </Text>
+        </View>
+      ) : (
+        <>
+          <FlatList
+            horizontal
+            data={cars}
+            showsHorizontalScrollIndicator={false}
+            renderItem={renderItem}
+            keyExtractor={item => item._id}
+          />
+        </>
+      )}
     </View>
   );
 };

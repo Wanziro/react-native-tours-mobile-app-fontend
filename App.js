@@ -10,6 +10,9 @@ import colors from './components/colors';
 import LoginModal from './components/Modals/Login';
 import SignUpModal from './components/Modals/SignUp';
 import TourDetailsModal from './components/Tours/TourDetailsModal';
+import CreateTour from './components/Tours/CreateTour';
+import CarDetails from './components/Cars/CarDetails';
+import CarBookingDays from './components/Cars/CarBookingDays';
 import Login from './components/Modals/Login';
 import UserProfile from './components/UserProfile/UserProfile';
 import ToursBookingInfo from './components/Tours/ToursBookingInfo';
@@ -18,6 +21,7 @@ import BookingType from './components/Tours/BookingType';
 import SubmitDocuments from './components/Tours/SubmitDocuments';
 import ManageToursBooking from './components/Tours/ManageToursBooking';
 import DashBoard from './components/Home/DashBoard';
+import NewCar from './components/Cars/NewCar';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -49,7 +53,36 @@ const HomeNavigation = () => {
     </Stack.Navigator>
   );
 };
-
+const NewCarNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="RegisterNewCar"
+        options={{
+          title: 'Register New Car',
+          headerStyle: {backgroundColor: colors.adminHeader},
+          headerTintColor: 'white',
+        }}
+        component={NewCar}
+      />
+    </Stack.Navigator>
+  );
+};
+const CreateTourNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CreateNewTour"
+        options={{
+          title: 'Create New Tour',
+          headerStyle: {backgroundColor: colors.adminHeader},
+          headerTintColor: 'white',
+        }}
+        component={CreateTour}
+      />
+    </Stack.Navigator>
+  );
+};
 const ToursNavigator = () => {
   return (
     <Stack.Navigator>
@@ -72,7 +105,7 @@ const ManageToursBookingNavigator = () => {
         name="ManageToursBooking"
         options={{
           title: 'Manage Tours client Booking',
-          headerStyle: {backgroundColor: colors.yellow1},
+          headerStyle: {backgroundColor: colors.adminHeader},
           headerTintColor: 'white',
         }}
         component={ManageToursBooking}
@@ -109,15 +142,6 @@ function MainStackScreen() {
         }}
         component={Home}
       />
-      <MainStack.Screen
-        name="Tours"
-        options={{
-          title: 'Latest Tours',
-          headerStyle: {backgroundColor: colors.yellow1},
-          headerTintColor: 'white',
-        }}
-        component={Tours}
-      />
     </MainStack.Navigator>
   );
 }
@@ -144,6 +168,25 @@ function RootStackScreen() {
         name="TourDetailsModal"
         component={TourDetailsModal}
         options={{title: '', headerTransparent: true}}
+      />
+      <RootStack.Screen
+        name="CarDetails"
+        component={CarDetails}
+        options={{title: 'Car Details'}}
+      />
+      <RootStack.Screen
+        name="Tours"
+        component={Tours}
+        options={{
+          title: 'Latest Tours',
+          headerStyle: {backgroundColor: colors.yellow1},
+          headerTintColor: 'white',
+        }}
+      />
+      <RootStack.Screen
+        name="CarBookingDays"
+        component={CarBookingDays}
+        options={{title: 'Car Booking Process 1/2'}}
       />
       <RootStack.Screen
         name="BookingType"
@@ -183,20 +226,45 @@ export default function App() {
               backgroundColor: colors.color4,
             }}>
             <Drawer.Screen name="Home" component={RootStackScreen} />
-            {userType == 'admin' && (
+            {userType == 'admin' ? (
+              <>
+                <Drawer.Screen
+                  name="Dashboard"
+                  options={{title: 'Admin Dashboard'}}
+                  component={DashBoard}
+                />
+                <Drawer.Screen
+                  name="CreateNewTour"
+                  options={{
+                    title: 'Register New Tour',
+                  }}
+                  component={CreateTourNavigator}
+                />
+                <Drawer.Screen
+                  name="RegisterNewCar"
+                  options={{
+                    title: 'Register New Car',
+                  }}
+                  component={NewCarNavigator}
+                />
+                <Drawer.Screen
+                  name="Tours"
+                  options={{
+                    title: 'List Of All Tours',
+                  }}
+                  component={ToursNavigator}
+                />
+              </>
+            ) : (
               <Drawer.Screen
-                name="Dashboard"
-                options={{title: 'Admin Dashboard'}}
-                component={DashBoard}
+                name="Tours"
+                options={{
+                  title: 'Latest Tours',
+                }}
+                component={ToursNavigator}
               />
             )}
-            <Drawer.Screen
-              name="Tours"
-              options={{
-                title: 'Latest Tours',
-              }}
-              component={ToursNavigator}
-            />
+
             {userType == 'admin' ? (
               <>
                 <Drawer.Screen

@@ -113,7 +113,7 @@ const Home = ({navigation}) => {
       </View>
       <ScrollView style={{position: 'relative', top: 0}}>
         <HomeTours navigation={navigation} />
-        <CarsForRent />
+        <CarsForRent navigation={navigation} />
         <Text
           style={{textAlign: 'center', color: colors.color2, marginBottom: 10}}>
           Explore Rwanda Tours &copy;2021

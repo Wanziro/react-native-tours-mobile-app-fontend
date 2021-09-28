@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -6,16 +6,50 @@ import {
   Text,
   Touchable,
   TouchableOpacity,
+  ActivityIndicator,
   View,
 } from 'react-native';
 import colors from '../colors';
 import TourDetailSlider from './TourDetailSlider';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Axios from 'axios';
+import {BackendUrl} from '../Config';
 
 const TourDetailsModal = ({route, navigation}) => {
   const {tour} = route.params;
+  const [userEmail, setUserEmail] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [deletingTour, setDeletingTour] = useState(false);
+  useEffect(() => {
+    AsyncStorage.getItem('user_email').then(value => {
+      if (value != null) setUserEmail(value);
+      setIsLoading(false);
+    });
+    AsyncStorage.getItem('user_type').then(value => {
+      if (value != null) setUserType(value);
+    });
+  });
+
   const handleBooking = () => {
     navigation.navigate('BookingType', {tour});
+  };
+
+  const handleBooking2 = () => {
+    navigation.navigate('LoginModal');
+  };
+
+  const handleDelete = () => {
+    setDeletingTour(true);
+    Axios.post(BackendUrl + 'api/tours/delete/', {id: tour._id})
+      .then(res => {
+        // console.log(res.data);
+        navigation.navigate('Tours');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -105,27 +139,110 @@ const TourDetailsModal = ({route, navigation}) => {
           </View>
 
           {/* book now button */}
-          <View
-            style={{
-              borderRadius: 10,
-              marginBottom: 20,
-              marginTop: 10,
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                handleBooking();
+
+          {isLoading ? (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                display: 'flex',
+                height: 50,
               }}>
+              <ActivityIndicator
+                color={colors.yellow1}
+                size="large"
+                style={{marginBottom: 10}}
+              />
+              <Text>Getting user info...</Text>
+            </View>
+          ) : userEmail != null ? (
+            userType == 'admin' ? (
+              <>
+                <TouchableOpacity>
+                  <View
+                    style={{
+                      backgroundColor: colors.yellow1,
+                      padding: 15,
+                    }}>
+                    <Text style={{color: 'white', textAlign: 'center'}}>
+                      Edit Tours Basic info
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginTop: 10}}>
+                  <View
+                    style={{
+                      backgroundColor: colors.yellow1,
+                      padding: 15,
+                    }}>
+                    <Text style={{color: 'white', textAlign: 'center'}}>
+                      Edit Tours Images
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{marginTop: 10}}
+                  onPress={() => {
+                    handleDelete();
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: colors.yellow1,
+                      padding: 15,
+                    }}>
+                    <Text style={{color: 'white', textAlign: 'center'}}>
+                      {deletingTour ? 'Deleting Tour' : 'Delete Tour'}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
               <View
                 style={{
-                  backgroundColor: colors.yellow1,
-                  padding: 15,
+                  borderRadius: 10,
+                  marginBottom: 20,
+                  marginTop: 10,
                 }}>
-                <Text style={{color: 'white', textAlign: 'center'}}>
-                  Book Now
-                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleBooking();
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: colors.yellow1,
+                      padding: 15,
+                    }}>
+                    <Text style={{color: 'white', textAlign: 'center'}}>
+                      Book Now
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
+            )
+          ) : (
+            <View
+              style={{
+                borderRadius: 10,
+                marginBottom: 20,
+                marginTop: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleBooking2();
+                }}>
+                <View
+                  style={{
+                    backgroundColor: colors.yellow1,
+                    padding: 15,
+                  }}>
+                  <Text style={{color: 'white', textAlign: 'center'}}>
+                    Book Now
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </ScrollView>
     </>

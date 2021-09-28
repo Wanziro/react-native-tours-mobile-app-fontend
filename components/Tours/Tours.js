@@ -10,14 +10,16 @@ function Tours({navigation}) {
 
   //getting tours from the backend
   useEffect(() => {
-    Axios.get(BackendUrl + 'api/tours')
+    Axios.get(BackendUrl + 'api/tours/')
       .then(res => {
-        setTours(res.data);
+        if (res.data != '' && typeof res.data == 'object') {
+          setTours(res.data);
+        }
       })
       .catch(err => {
         console.log('something went wrong, ' + err);
       });
-  }, []);
+  });
   return (
     <ScrollView>
       <View

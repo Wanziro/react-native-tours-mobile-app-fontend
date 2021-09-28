@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Axios from 'axios';
-import {BackendUrl} from '../Config';
+import {BackendUrl, UploadsUrl} from '../Config';
 
 import {
   Text,
@@ -20,7 +20,7 @@ const HomeTours = ({navigation}) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    Axios.get(BackendUrl + 'api/home/tours')
+    Axios.get(BackendUrl + 'api/home/tours/')
       .then(res => {
         setItems(res.data);
       })
@@ -40,7 +40,7 @@ const HomeTours = ({navigation}) => {
         {items.map((item, index) => (
           <View key={index} style={styles.itemContainer}>
             <Image
-              source={{uri: BackendUrl + 'images/' + item.images[0]}}
+              source={{uri: UploadsUrl + item.images[0]}}
               style={styles.img}
               fadeDuration={1000}
             />
