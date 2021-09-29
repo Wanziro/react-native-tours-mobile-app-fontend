@@ -26,6 +26,11 @@ const CarBookingDays = ({route, navigation}) => {
     setDays(x);
   };
 
+  const payCar = () => {
+    let amount = days * car.price;
+    navigation.navigate('PayCar', {car: car, days: days, amount: amount});
+  };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -110,7 +115,10 @@ const CarBookingDays = ({route, navigation}) => {
               marginBottom: 20,
               marginTop: 10,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                payCar();
+              }}>
               <View
                 style={{
                   backgroundColor: colors.yellow1,

@@ -32,7 +32,7 @@ const Item = ({item, navigation}) => (
         {item.name}
       </Text>
       <Text style={{color: colors.color2}}>
-        {item.currency} {item.price} Per {item.time}
+        {item.currency} {item.price} Per Day
       </Text>
     </View>
   </View>

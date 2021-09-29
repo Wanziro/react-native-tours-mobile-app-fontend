@@ -22,6 +22,8 @@ import SubmitDocuments from './components/Tours/SubmitDocuments';
 import ManageToursBooking from './components/Tours/ManageToursBooking';
 import DashBoard from './components/Home/DashBoard';
 import NewCar from './components/Cars/NewCar';
+import PayCar from './components/Cars/PayCar';
+import CarsRent from './components/Cars/CarsRent';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -129,6 +131,22 @@ const ToursBookingNavigator = () => {
   );
 };
 
+const CarsRentNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CarsRent"
+        options={{
+          title: 'Cars Rent',
+          headerStyle: {backgroundColor: colors.yellow1},
+          headerTintColor: 'white',
+        }}
+        component={CarsRent}
+      />
+    </Stack.Navigator>
+  );
+};
+
 //modal configuration
 //main screeen
 function MainStackScreen() {
@@ -186,7 +204,12 @@ function RootStackScreen() {
       <RootStack.Screen
         name="CarBookingDays"
         component={CarBookingDays}
-        options={{title: 'Car Booking Process 1/2'}}
+        options={{title: 'Car Renting Process 1/2'}}
+      />
+      <RootStack.Screen
+        name="PayCar"
+        component={PayCar}
+        options={{title: 'Car Renting Process 2/2'}}
       />
       <RootStack.Screen
         name="BookingType"
@@ -283,6 +306,13 @@ export default function App() {
                     title: 'Tours Booking Status',
                   }}
                   component={ToursBookingNavigator}
+                />
+                <Drawer.Screen
+                  name="CarsRent"
+                  options={{
+                    title: 'Cars Rent',
+                  }}
+                  component={CarsRentNavigator}
                 />
               </>
             )}
