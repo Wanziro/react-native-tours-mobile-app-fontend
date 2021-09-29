@@ -31,6 +31,10 @@ function BookingType({route, navigation}) {
           <Text style={{fontSize: 30, fontWeight: 'bold'}}>
             Choose Booking Method
           </Text>
+          <Text style={{color: colors.color6}}>
+            All booking method below works but the payment one has more
+            priority!.
+          </Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('SubmitDocuments', {tour: tour});
@@ -47,7 +51,10 @@ function BookingType({route, navigation}) {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ToursPayment', {tour: tour});
+            }}>
             <View
               style={{
                 backgroundColor: colors.yellow1,
@@ -55,7 +62,9 @@ function BookingType({route, navigation}) {
                 marginTop: 30,
                 borderRadius: 10,
               }}>
-              <Text style={{color: 'white', textAlign: 'center'}}>Payment</Text>
+              <Text style={{color: 'white', textAlign: 'center'}}>
+                Pay 50% of the price
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -24,6 +24,7 @@ import DashBoard from './components/Home/DashBoard';
 import NewCar from './components/Cars/NewCar';
 import PayCar from './components/Cars/PayCar';
 import CarsRent from './components/Cars/CarsRent';
+import ToursPayment from './components/Tours/ToursPayment';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -137,7 +138,7 @@ const CarsRentNavigator = () => {
       <Stack.Screen
         name="CarsRent"
         options={{
-          title: 'Cars Rent',
+          title: 'Cars Rented',
           headerStyle: {backgroundColor: colors.yellow1},
           headerTintColor: 'white',
         }}
@@ -219,6 +220,11 @@ function RootStackScreen() {
       <RootStack.Screen
         name="SubmitDocuments"
         component={SubmitDocuments}
+        options={{title: '', headerTransparent: true, headerTintColor: 'white'}}
+      />
+      <RootStack.Screen
+        name="ToursPayment"
+        component={ToursPayment}
         options={{title: '', headerTransparent: true, headerTintColor: 'white'}}
       />
     </RootStack.Navigator>
@@ -310,7 +316,7 @@ export default function App() {
                 <Drawer.Screen
                   name="CarsRent"
                   options={{
-                    title: 'Cars Rent',
+                    title: 'Cars Rented',
                   }}
                   component={CarsRentNavigator}
                 />

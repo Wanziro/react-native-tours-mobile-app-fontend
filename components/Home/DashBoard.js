@@ -22,6 +22,7 @@ function DashBoard() {
   const [tours, setTours] = useState([]);
   const [toursBooking, setToursBooking] = useState([]);
   const [cars, setCars] = useState([]);
+  const [carsBooking, setCarsBooking] = useState([]);
   const [users, setUsers] = useState([]);
 
   //loaders
@@ -51,6 +52,22 @@ function DashBoard() {
       .then(res => {
         setLoadingCars(false);
         setCars(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    Axios.post(BackendUrl + 'api/users/')
+      .then(res => {
+        setUsers(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    Axios.post(BackendUrl + 'api/cars/booked/')
+      .then(res => {
+        setCarsBooking(res.data);
       })
       .catch(err => {
         console.log(err);
@@ -148,7 +165,9 @@ function DashBoard() {
                 flexDirection: 'row',
               }}>
               <Text style={{color: 'white', fontSize: 18}}>Cars Booking</Text>
-              <Text style={{color: 'white', fontSize: 18}}>0</Text>
+              <Text style={{color: 'white', fontSize: 18}}>
+                {carsBooking.length}
+              </Text>
             </View>
           </View>
           <View
@@ -164,7 +183,7 @@ function DashBoard() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              <Text style={{color: 'white', fontSize: 30}}>0</Text>
+              <Text style={{color: 'white', fontSize: 30}}>{users.length}</Text>
               <Text
                 style={{
                   color: 'white',
@@ -172,54 +191,6 @@ function DashBoard() {
                   fontWeight: 'bold',
                 }}>
                 Registered Users
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              padding: 20,
-              marginTop: 20,
-              borderRadius: 10,
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text style={{color: 'white', fontSize: 30}}>0</Text>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                }}>
-                Total Amount
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              padding: 20,
-              marginTop: 20,
-              borderRadius: 10,
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text style={{color: 'white', fontSize: 30}}>0</Text>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                }}>
-                Invoices
               </Text>
             </View>
           </View>
