@@ -1,6 +1,6 @@
 import React from 'react';
-import {BackendUrl, UploadsUrl} from '../Config';
-import {View, Image, Text, TouchableOpacity} from 'react-native';
+import {UploadsUrl} from '../Config';
+import {View, Image, Text, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import colors from '../colors';
@@ -10,7 +10,7 @@ const Tour = ({details, navigation}) => {
   let momentInput = date[0] + date[1] + date[2];
   return (
     <View style={{backgroundColor: 'white', borderRadius: 10, marginTop: 20}}>
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
           navigation.navigate('TourDetailsModal', {tour: details});
         }}>
@@ -23,7 +23,7 @@ const Tour = ({details, navigation}) => {
             borderTopRightRadius: 10,
           }}
         />
-      </TouchableOpacity>
+      </Pressable>
       <View style={{padding: 10}}>
         <Text style={{fontSize: 18}}>{details.title}</Text>
         <View style={{flexDirection: 'row', marginLeft: -2}}>

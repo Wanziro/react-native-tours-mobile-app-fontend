@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
   TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../colors';
@@ -70,90 +71,94 @@ const Login = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../assets/img/conv1.jpg')}
-        resizeMode="cover"
-        style={styles.image}>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginVertical: 30,
-          }}>
-          <View style={styles.header}>
-            <Icon size={100} color={colors.yellow1} name="sun-o" />
-          </View>
-        </View>
-        <View style={styles.loginContainer}>
-          <Text style={styles.h1}>Login</Text>
-          {/* email text field */}
-          <View style={{position: 'relative'}}>
-            <TextInput
-              placeholder="Email"
-              textContentType="emailAddress"
-              style={styles.textInput}
-              onChangeText={e => setEmail(e)}
-            />
-            <View style={styles.iconContainer}>
-              <Icon name="envelope" size={30} color="lightgray" />
+    <>
+      <StatusBar translucent={true} backgroundColor="transparent" />
+      <View style={styles.container}>
+        <ImageBackground
+          source={require('../../assets/img/conv1.jpg')}
+          resizeMode="cover"
+          style={styles.image}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginVertical: 30,
+            }}>
+            <View style={styles.header}>
+              <Icon size={100} color={colors.yellow1} name="sun-o" />
             </View>
           </View>
-
-          {/* password text field */}
-          <View style={{position: 'relative', marginTop: 20}}>
-            <TextInput
-              placeholder="Password"
-              secureTextEntry={true}
-              style={styles.textInput}
-              onChangeText={e => {
-                setPassword(e);
-              }}
-            />
-            <View style={styles.iconContainer}>
-              <Icon name="lock" size={30} color="lightgray" />
+          <View style={styles.loginContainer}>
+            <Text style={styles.h1}>Login</Text>
+            {/* email text field */}
+            <View style={{position: 'relative'}}>
+              <TextInput
+                placeholder="Email"
+                textContentType="emailAddress"
+                style={styles.textInput}
+                onChangeText={e => setEmail(e)}
+              />
+              <View style={styles.iconContainer}>
+                <Icon name="envelope" size={30} color="lightgray" />
+              </View>
             </View>
-          </View>
 
-          <ShowError />
+            {/* password text field */}
+            <View style={{position: 'relative', marginTop: 20}}>
+              <TextInput
+                placeholder="Password"
+                secureTextEntry={true}
+                style={styles.textInput}
+                onChangeText={e => {
+                  setPassword(e);
+                }}
+              />
+              <View style={styles.iconContainer}>
+                <Icon name="lock" size={30} color="lightgray" />
+              </View>
+            </View>
 
-          {/* submit button */}
-          <TouchableOpacity style={{marginVertical: 20}}>
-            <View style={styles.button}>
+            <ShowError />
+
+            {/* submit button */}
+            <TouchableOpacity style={{marginVertical: 20}}>
+              <View style={styles.button}>
+                <Text
+                  onPress={handleSubmit}
+                  style={{textAlign: 'center', color: 'white', fontSize: 20}}>
+                  {loginBtnText}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {/* submit button */}
+
+            <View style={{marginVertical: 20}}>
               <Text
-                onPress={handleSubmit}
-                style={{textAlign: 'center', color: 'white', fontSize: 20}}>
-                {loginBtnText}
+                style={{textAlign: 'center', marginBottom: 20, fontSize: 18}}>
+                Don't have Account?
               </Text>
-            </View>
-          </TouchableOpacity>
-          {/* submit button */}
-
-          <View style={{marginVertical: 20}}>
-            <Text style={{textAlign: 'center', marginBottom: 20, fontSize: 18}}>
-              Don't have Account?
-            </Text>
-            <TouchableWithoutFeedback
-              style={{padding: 20}}
-              onPress={() => {
-                navigation.navigate('SignUpModal');
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 20,
-                  color: colors.yellow1,
-                  fontWeight: '900',
-                  textDecorationStyle: 'dotted',
-                  textDecorationLine: 'underline',
+              <TouchableWithoutFeedback
+                style={{padding: 20}}
+                onPress={() => {
+                  navigation.navigate('SignUpModal');
                 }}>
-                Sign Up
-              </Text>
-            </TouchableWithoutFeedback>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 20,
+                    color: colors.yellow1,
+                    fontWeight: '900',
+                    textDecorationStyle: 'dotted',
+                    textDecorationLine: 'underline',
+                  }}>
+                  Sign Up
+                </Text>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
-    </View>
+        </ImageBackground>
+      </View>
+    </>
   );
 };
 

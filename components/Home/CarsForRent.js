@@ -42,15 +42,31 @@ const App = ({navigation}) => {
   const [cars, setCars] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = sub => {
     Axios.post(BackendUrl + 'api/cars/notBooked')
       .then(res => {
-        setCars(res.data);
-        setIsLoading(false);
+        if (sub) {
+          setCars(res.data);
+          setIsLoading(false);
+        }
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    let sub = true;
+    fetchData(sub);
+
+    const interval = setInterval(() => {
+      fetchData(sub);
+    }, 50000);
+
+    return () => {
+      sub = false;
+      clearInterval(interval);
+    };
   });
   const renderItem = ({item}) => <Item item={item} navigation={navigation} />;
 

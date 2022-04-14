@@ -19,15 +19,32 @@ const windowHeight = Dimensions.get('window').height;
 const HomeTours = ({navigation}) => {
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
+  const fetchData = sub => {
+    console.log('called');
     Axios.get(BackendUrl + 'api/home/tours/')
       .then(res => {
-        setItems(res.data);
+        if (sub) {
+          setItems(res.data);
+        }
       })
       .catch(err => {
         console.log('something went wrong, ', err);
       });
-  });
+  };
+
+  useEffect(() => {
+    let sub = true;
+    fetchData(sub);
+
+    const interval = setInterval(() => {
+      fetchData(sub);
+    }, 50000);
+
+    return () => {
+      sub = false;
+      clearInterval(interval);
+    };
+  }, []);
   return (
     <View style={{padding: 0}}>
       <Carousel

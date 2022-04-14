@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {StatusBar} from 'react-native';
 
 import Home from './components/Home/Home';
 import Tours from './components/Tours/Tours';
@@ -248,6 +249,7 @@ export default function App() {
 
   return (
     <>
+      <StatusBar backgroundColor={colors.color1} barStyle="dark-content" />
       {userEmail != '' && userEmail != null ? (
         <NavigationContainer>
           <Drawer.Navigator

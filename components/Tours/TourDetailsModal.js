@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
-  FlatList,
-  SafeAreaView,
   ScrollView,
   Text,
-  Touchable,
   TouchableOpacity,
   ActivityIndicator,
   View,
